@@ -68,7 +68,7 @@ include("sidebar.php");
                         </tr>
                         <tr>
                             <th>Bill To (Name) : </th>
-                            <td><input type="text" name="name" autocomplete="off" value=" " class="form-control"></td>
+                            <td><input type="text" name="name" autocomplete="off" value="" required class="form-control"></td>
                             <th>Phone : </th>
                             <td><input type="text" name="number" value="+880" class="form-control"></td>
                         </tr>
@@ -136,10 +136,47 @@ include("sidebar.php");
             $name = $_POST["name"];            
             $phone = $_POST["number"];       
             $payby = $_POST["payby"];
-            $_SESSION['cst'][] = array('cname'=>$name,'number'=>$phone,'payby'=>$payby,'order_id'=>$order_id,'invoice_id'=>$invoice_id,'date'=>$today);            
+            $_SESSION['cst'][] = array('cname'=>$name,'number'=>$phone,'payby'=>$payby,'order_id'=>$order_id,'invoice_id'=>$invoice_id,'date'=>$today); 
+            // ===================order array print here ===============================
+            foreach($_SESSION["cst"] as $k => $v){
+
+                $cname      = $v['cname'];
+                $number     = $v['number'];
+                $payby      = $v['payby'];
+                $Order      = $v['order_id'];
+                $invoice    = $v['invoice_id'];
+                $date       = $v['date'];
+                
+            }
+            
+            // =================Product cart array print here ==============
+            $sum = 0;
+            foreach($_SESSION["cart"] as $key => $value){
+                $pro_name = $value['productName'];
+                $id = $value['pid'];
+                $price = $value['productPrice'];
+                $Qnt = $value['productQnt'];
+                $total = $price * $Qnt; 
+                $sum = $sum+$total;
+
+            }
+            // Order table end 
+
+
+            // total equation part start here 
+            $tex = ($sum/100)*10;
+            $serv = 100;
+            $ntamt = $tex+$serv+$sum;          
             // unset($_SESSION['cst']);
-            // print_r($_SESSION['cst']);
-            header("location:pdf.php");
+            // unset($_SESSION['cart']);
+            // ========================== database sql ==========================
+            $insert = "INSERT INTO `order`(`order_id`, `invoice_id`, `name`, `phone`, `paywith`, `net_amt`, `date`) VALUES ('$Order','$invoice','$cname','$number','$payby','$ntamt',now() )";
+            $sql = mysqli_query($db,$insert);
+            if($sql){
+                header("location:pdf.php");
+            }else{
+                echo "sothing wrong";
+            }
         }
         ?>
     </form>
