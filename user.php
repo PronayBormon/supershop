@@ -5,9 +5,21 @@ include("sidebar.php");
 ?>
 <!-- wrapper part start here  -->
 <div class="content-wrapper"> 
+
+    <!-- alert  -->
+    <?php
+    if(isset($_GET["repassalert"])){
+        echo '<script>alert("Password dose not match")</script>';
+    }
+    if(isset($_GET["succesfull"])){
+        echo '<script>alert("Succesfuly Created")</script>';
+
+    }
+    ?>
+    <!-- alert end  -->
   
   <div class="container rounded bg-white mb-5">
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="images/user.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
@@ -131,12 +143,50 @@ include("sidebar.php");
 
             $user_id = rand(0,9999999);
 
-            $rand = rand(0,9999);
-            $final_name = $rand."_".$profile;
-            move_uploaded_file($tmp_name,"images/profile_image".$final_name);
+           if($password==$repassword){
+
+            $select = "SELECT * FROM `user`";
+            $ssql = mysqli_query($db,$select);
+            while($row = mysqli_fetch_assoc($ssql)){
+                $d_name = $row["user_name"];
+                $s_name = $row["user_surname"];
+                $d_mail = $row["user_email"];
+            }
+            if($user_name==$d_name && $surname==$s_name){
+                echo "<script> alert('User name already used!')</script>";
+            }else if($d_mail==$email){                
+                echo "<script> alert('Email Address already used!')</script>";
+            }else{
+                if(empty($profile)){
+                    $rand = rand(0,9999);
+                    $final_name = $rand."_".$profile;
+                    move_uploaded_file($tmp_name,"images/profile_image".$final_name);
 
 
-            $insert = "INSERT INTO `user`(`user_id`, `user_name`, `user_surname`, `user_mobile`, `user_addressOne`, `user_addressTwo`, `user_postcode`, `user_state`, `user_area`, `user_email`, `user_education`, `user_country`, `user_status`, `user_role`, `user_pass`, `user_profile`) VALUES ('$user_id','$user_name','$surname','$mobile','$addressOne','$addressTwo','$postcode','$state','$area','$email','$education','[value-12]','[value-13]','[value-14]','[value-15]','[value-16]') ";
+                    $insert = "INSERT INTO `user`(`user_id`, `user_name`, `user_surname`, `user_mobile`, `user_addressOne`, `user_addressTwo`, `user_postcode`, `user_state`, `user_area`, `user_email`, `user_education`, `user_country`, `user_status`, `user_role`, `user_pass`) VALUES ('$user_id','$user_name','$surname','$mobile','$addressOne','$addressTwo','$postcode','$state','$area','$email','$education','$country','$status','$role','$password') ";
+                    $sql= mysqli_query($db,$insert);
+                    if($sql){
+                        
+                    header("location:user.php?succesfull");
+                    }
+                }else{
+                    $rand = rand(0,9999);
+                    $final_name = $rand."_".$profile;
+                    move_uploaded_file($tmp_name,"images/profile_image".$final_name);
+
+
+                    $insert = "INSERT INTO `user`(`user_id`, `user_name`, `user_surname`, `user_mobile`, `user_addressOne`, `user_addressTwo`, `user_postcode`, `user_state`, `user_area`, `user_email`, `user_education`, `user_country`, `user_status`, `user_role`, `user_pass`, `user_profile`) VALUES ('$user_id','$user_name','$surname','$mobile','$addressOne','$addressTwo','$postcode','$state','$area','$email','$education','$country','$status','$role','$password','$final_name') ";
+                    $sql= mysqli_query($db,$insert);
+                    if($sql){
+                        
+                    header("location:user.php?succesfull");
+                    }
+                }
+            }
+
+           }else{
+            header("location:user.php?repassalert");
+           }
         }
         ?>
     </form>
