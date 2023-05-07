@@ -2,6 +2,18 @@
 include("db.php");
 include("header.php");
 include("sidebar.php");
+if(isset($_SESSION["user"])){
+  foreach($_SESSION["user"] as $key => $value){
+
+    $u_id = $value["user_id"];
+    $u_name = $value["user_name"];
+    $u_email = $value["user_email"];
+    $u_pass = $value["password"];
+    $u_profile = $value["profile"];
+    $u_role = $value["role"];
+    $u_status = $value["status"];
+  }
+
 ?>
 <!-- wrapper part start here  -->
 <div class="content-wrapper"> 
@@ -9,7 +21,7 @@ include("sidebar.php");
   <div class="container rounded bg-white mb-5">
     <div class="row">
       <div class="col-md-3 border-right">
-          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" height="150px" src="images/profile_image/<?php echo $u_profile;?>"><span class="font-weight-bold"><?php echo $u_name;?></span><span class="text-black-50"><?php echo $u_email;?></span><span> </span></div>
       </div>
       <div class="col-md-5 border-right">
           <div class="p-3 py-5">
@@ -39,16 +51,9 @@ include("sidebar.php");
       </div>
       <div class="col-md-4">
           <div class="p-3 py-5">
-             
-
-              <div class="col-md-12">
-                <label class="labels">Experience in Designing</label>
-                <input type="text" class="form-control" placeholder="experience" value="">
-              </div> 
-              <div class="col-md-12">
-                <label class="labels">Additional Details</label>
-                <input type="text" class="form-control" placeholder="additional details" value="">
-              </div>
+              <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
+              <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+              <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
           </div>
       </div>
     </div>
@@ -57,4 +62,8 @@ include("sidebar.php");
     
 <?php
 include("footer.php");
+}else{
+  header("location:login.php");
+
+}
 ?>

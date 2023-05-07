@@ -2,6 +2,18 @@
 include("db.php");
 include("header.php");
 include("sidebar.php");
+if(isset($_SESSION["user"])){
+    foreach($_SESSION["user"] as $key => $value){
+  
+      $u_id = $value["user_id"];
+      $u_name = $value["user_name"];
+      $u_email = $value["user_email"];
+      $u_pass = $value["password"];
+      $u_profile = $value["profile"];
+      $u_role = $value["role"];
+      $u_status = $value["status"];
+    }
+  
 
 if(isset($_GET["edit_id"])){
 
@@ -341,4 +353,8 @@ if(isset($_GET["edit_id"])){
 
 <?php
 include("footer.php");
+}else{
+    header("location:login.php");
+
+  }
 ?>

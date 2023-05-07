@@ -2,6 +2,20 @@
 include("db.php");
 include("header.php");
 include("sidebar.php");
+if(isset($_SESSION["user"])){
+  foreach($_SESSION["user"] as $key => $value){
+
+    $u_id = $value["user_id"];
+    $u_name = $value["user_name"];
+    $u_email = $value["user_email"];
+    $u_pass = $value["password"];
+    $u_profile = $value["profile"];
+    $u_role = $value["role"];
+    $u_status = $value["status"];
+  }
+
+
+
 ?>
       <!-- wrapper part start here  -->
       <div class="content-wrapper"> 
@@ -11,7 +25,7 @@ include("sidebar.php");
             <div class="profile ms-auto">
             <div class="dropdown ">
                 <button class="bg-transparent border border-0 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="images/logo.png" class="img-fluid border rounded-circle me-2" style="height: 40px; width:40px;" alt=""> Pronay Kumar Bormon
+                  <img src="images/profile_image/<?php echo $u_profile;?>" class="img-fluid border rounded-circle me-2" style="height: 40px; width:40px;" alt=""> <?php echo $u_name;?>
                 </button>
                 <ul class="dropdown-menu" style="right:0px; width:100%;" aria-labelledby="dropdownMenuButton1">
                   <li><a class="dropdown-item" href="logout.php" title="logout">Logout</a></li>
@@ -20,7 +34,7 @@ include("sidebar.php");
             </div>
           </div>
           <div class="card-body">
-            <p><i class="fa-solid fa-cart-shopping"></i> Selected Items</p>
+            <p><i class="fa-solid fa-cart-shopping"></i>Selected Items</p>
               <div class="row">
                 <div class="col-md-8 m-auto">
                   <div class="card">
@@ -140,4 +154,8 @@ include("sidebar.php");
     
 <?php
 include("footer.php");
+  }else{
+    header("location:login.php");
+
+  }
 ?>

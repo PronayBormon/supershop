@@ -1,5 +1,17 @@
 <?php
 include("db.php");
+if(isset($_SESSION["user"])){
+  foreach($_SESSION["user"] as $key => $value){
+
+    $u_id = $value["user_id"];
+    $u_name = $value["user_name"];
+    $u_email = $value["user_email"];
+    $u_pass = $value["password"];
+    $u_profile = $value["profile"];
+    $u_role = $value["role"];
+    $u_status = $value["status"];
+  }
+
 if(isset($_POST['input'])){
 
     $input = $_POST['input'];
@@ -40,5 +52,8 @@ if(isset($_POST['input'])){
 }
 
 
+}else{
+  header("location:login.php");
 
+}
 ?>

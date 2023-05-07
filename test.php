@@ -1,3 +1,5 @@
+<?php
+
 
 // fpdf page start here 
 $pdf = new FPDF();
@@ -47,3 +49,4 @@ $pdf->Output();
 $tex = ($sum/100)*10;
 $serv = 100;
 $ntamt = $tex+$serv+$sum;
+?>
