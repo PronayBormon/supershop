@@ -109,17 +109,17 @@ if(isset($_SESSION["user"])){
 
                       <div class="col-md-12">
                           <label class="labels">Password</label>
-                          <input type="text" class="form-control" name="password" autocomplete="off" required placeholder="Enter Your password" value="">
+                          <input type="text" class="form-control" name="password" autocomplete="off" required placeholder="Enter Your assword" value="">
                       </div> 
                       <div class="col-md-12">
                           <label class="labels">Retype Password</label>
-                          <input type="text" class="form-control" name="repassword" autocomplete="off" required placeholder="Enter Your password" value="">
+                          <input type="text" class="form-control" name="repassword" autocomplete="off"  required placeholder="Enter Your password" value="">
                       </div>
                       <div class="col-md-12">
                           <label class="labels">User Status</label>
                           <select name="status" class="form-control" id="">
-                              <option value="1" <?php if($d_status==1){echo 'selected';}?> >Active</option>
-                              <option value="2" <?php if($d_status==2){echo 'selected';}?>>Inactive</option>
+                              <option value="1" <?php if($d_status==1){echo 'selected';}else{echo 'disabled';} ?> >Active</option>
+                              <option value="2" <?php if($d_status==2){echo 'selected';}else{echo 'disabled';} ?>>Inactive</option>
                           </select>
                       </div> 
                       <div class="col-md-12">
