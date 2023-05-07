@@ -225,7 +225,7 @@ if(isset($_SESSION["user"])){
         $email = $row["user_email"];
         $education = $row["user_education"];
         $country = $row["user_country"];
-        $status = $row["user_status"];
+        $d_status = $row["user_status"];
         $role = $row["user_role"];
         $password = $row["user_pass"];
         $profile = $row["user_profile"];
@@ -312,8 +312,8 @@ if(isset($_SESSION["user"])){
                             <label class="labels">User Status</label>
                             <select name="status" class="form-control" id="">
                                 <option value="" disabled selected>Select One</option>
-                                <option value="1" <?php if($status==1){echo 'selected';}?> >Active</option>
-                                <option value="2" <?php if($status==2){echo 'selected';}?>>Inactive</option>
+                                <option value="1" <?php if($d_status==1){echo 'selected';}?> >Active</option>
+                                <option value="2" <?php if($d_status==2){echo 'selected';}?>>Inactive</option>
                             </select>
                         </div> 
                         <div class="col-md-12">
@@ -331,7 +331,7 @@ if(isset($_SESSION["user"])){
                         </div> 
                         <div class="mt-5 text-center">
                             <!-- <button class="btn btn-primary profile-button" name="create" type="button">Create Profile</button> -->
-                            <input class="btn btn-primary profile-button" type="submit" name="update" value="Create Profile">
+                            <input class="btn btn-primary profile-button" type="submit" name="update" value="Update Profile">
                         </div>
                     </div>
                 </div>
@@ -360,14 +360,14 @@ if(isset($_SESSION["user"])){
 
                 if($password==$repassword){
 
-                    // if(empty($profil)){                        
+                    if(empty($profile)){                       
 
-                    //     $update = "UPDATE `user` SET `user_name`='$user_name',`user_surname`='$surname',`user_mobile`='$mobile',`user_addressOne`='$addressOne',`user_addressTwo`='$addressTwo',`user_postcode`='$post_code',`user_state`='$state',`user_area`='$area',`user_email`='$email',`user_education`='$education',`user_country`='$country',`user_status`='$state',`user_role`='$role',`user_pass`='$password' WHERE user_id = $edit_id";
-                    //     $sql = mysqli_query($db,$update);
-                    //     if($sql){
-                    //         header("location:user.php");
-                    //     }
-                    // }else{
+                        $update = "UPDATE `user` SET `user_name`='$user_name',`user_surname`='$surname',`user_mobile`='$mobile',`user_addressOne`='$addressOne',`user_addressTwo`='$addressTwo',`user_postcode`='$post_code',`user_state`='$state',`user_area`='$area',`user_email`='$email',`user_education`='$education',`user_country`='$country',`user_status`='$status',`user_role`='$role',`user_pass`='$password' WHERE user_id = $edit_id";
+                        $sql = mysqli_query($db,$update);
+                        if($sql){
+                            header("location:user.php");
+                        }
+                    }else{
                         $rand = rand(0,9999);
                         $final_name = $rand."_".$profile;
                         move_uploaded_file($tmp_name,"images/profile_image/".$final_name);
@@ -377,7 +377,7 @@ if(isset($_SESSION["user"])){
                         if($sql){
                             header("location:user.php");
                         }
-                    // }
+                    }
 
                 }
             }
@@ -388,10 +388,22 @@ if(isset($_SESSION["user"])){
 
 <?php
 
+  }else if(isset($_GET["delete_id"])){
+        $d_id = $_GET["delete_id"];
+
+        $dsql = "DELETE FROM `user` WHERE `user_id`='$d_id'";
+        $sql = mysqli_query($db,$dsql);
+        if($sql){
+            echo "<script> 
+            alert('Successfully Delete ');
+            window.location.href='user.php';            
+            </script>";
+        }
+
   }else{
     ?>
     <div class="card">
-        <div class="card-header d-flex ">
+        <div class="card-header d-flex "> 
             <div>
                 <h2><i class="fa-solid fa-cart-shopping"></i> All user page </h2>
             </div>
@@ -461,13 +473,33 @@ if(isset($_SESSION["user"])){
                         <td><?php if(empty($profile)){echo '<img src="images/user_pro" class="img-fluid" style="height:40px;"> ';}else{echo "<img src='images/profile_image/$profile' class='img-fluid' style='height:40px;'>";}  ?></td>
                         <td class="btn-group btn-small">
                             <a href="user.php?edit_id=<?php echo $user_id;?>" class="btn btn-secondary">Edit </a>
-                            <a href="user.php?delete_id=<?php echo $user_id;?>" class="btn btn-danger">Delete </a>
+                            <a href="user.php?delete_id=<?php echo $user_id;?>" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#id=<?php echo $user_id ?>"> Delete </a>
                             
                         </td>
+                            <!-- Modal -->
+                            <div class="modal fade" id="id=<?php echo $user_id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"><?php echo $user_id ?></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <?php echo $user_name." ".$user_surname; ?> And Id : <?php echo $user_id ?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a href="user.php?delete_id=<?php echo $user_id;?>" class="btn btn-primary">Confirm</a>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- modal end  -->
                     </tr>
                     <?php
                     }
                     ?>
+                    
                     
                 </tbody>
             </table>
