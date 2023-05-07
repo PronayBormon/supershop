@@ -13,6 +13,7 @@ if(isset($_SESSION["user"])){
       $u_role = $value["role"];
       $u_status = $value["status"];
     }
+    if($u_role==1 && $u_status==1){
   
 
 if(isset($_GET["edit_id"])){
@@ -353,6 +354,10 @@ if(isset($_GET["edit_id"])){
 
 <?php
 include("footer.php");
+    }else{
+        echo "<script> alert('You need permission to visit this page');
+        window.location.href='index.php';</script>";
+    }
 }else{
     header("location:login.php");
 

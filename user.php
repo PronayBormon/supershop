@@ -13,6 +13,7 @@ if(isset($_SESSION["user"])){
       $u_role = $value["role"];
       $u_status = $value["status"];
     }
+    if($u_role==1 && $u_status==1){
   
 ?>
 <!-- wrapper part start here  -->
@@ -469,7 +470,7 @@ if(isset($_SESSION["user"])){
                         <td><?php echo $country; ?> </td>
                         <td><?php echo $education; ?> </td>
                         <td><?php if($status==1){echo '<p class="badge badge-success">Active</p>';}else{echo '<p class="badge badge-danger">Inactive</p>';} ?> </td>
-                        <td><?php if($role==1){echo '<p class="badge badge-success">Active</p>';}else{echo '<p class="badge badge-danger">Inactive</p>';} ?></td>
+                        <td><?php if($role==1){echo '<p class="badge badge-success">Admin</p>';}else{echo '<p class="badge badge-danger">Employee</p>';} ?></td>
                         <td><?php if(empty($profile)){echo '<img src="images/user_pro" class="img-fluid" style="height:40px;"> ';}else{echo "<img src='images/profile_image/$profile' class='img-fluid' style='height:40px;'>";}  ?></td>
                         <td class="btn-group btn-small">
                             <a href="user.php?edit_id=<?php echo $user_id;?>" class="btn btn-secondary">Edit </a>
@@ -515,6 +516,10 @@ if(isset($_SESSION["user"])){
     
 <?php
 include("footer.php");
+    }else{
+        echo "<script> alert('You need permission to visit this page');
+        window.location.href='index.php';</script>";
+    }
 }else{
     header("location:login.php");
 

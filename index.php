@@ -13,6 +13,7 @@ if(isset($_SESSION["user"])){
     $u_role = $value["role"];
     $u_status = $value["status"];
   }
+  if($u_status==1){
 
 
 
@@ -154,6 +155,11 @@ if(isset($_SESSION["user"])){
     
 <?php
 include("footer.php");
+}else{
+  echo "<script> alert('You need permission to visit this page! contact with admin.');
+  window.location.href='login.php';</script>";
+  unset($_SESSION['user']);
+}
   }else{
     header("location:login.php");
 

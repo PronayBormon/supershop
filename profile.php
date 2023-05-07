@@ -13,6 +13,7 @@ if(isset($_SESSION["user"])){
     $u_role = $value["role"];
     $u_status = $value["status"];
   }
+  if($u_role==1 && $u_status==1){
   // $edit_id = $_GET["edit_id"];
     $select = "SELECT * FROM user WHERE user_id = '$u_id' ";
     $sql = mysqli_query($db, $select);
@@ -125,8 +126,8 @@ if(isset($_SESSION["user"])){
                       <div class="col-md-12">
                           <label class="labels">User Role</label>
                           <select name="role" class="form-control" id="">
-                              <option value="1" <?php if($role==1){echo 'selected';}?>>Admin</option>
-                              <option value="2" <?php if($role==2){echo 'selected';}?>>employee</option>
+                              <option value="1" <?php if($role==1){echo 'selected';}else{echo 'disabled';}?>>Admin</option>
+                              <option value="2" <?php if($role==2){echo 'selected';}else{echo 'disabled';}?>>employee</option>
                           </select>
                       </div> 
                       <div class="col-md-12">
@@ -201,6 +202,10 @@ if(isset($_SESSION["user"])){
     
 <?php
 include("footer.php");
+}else{
+  echo "<script> alert('You need permission to visit this page');
+  window.location.href='index.php';</script>";
+}
 }else{
   header("location:login.php");
 
